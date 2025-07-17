@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🎨 AI Quote & Art Generator</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #111;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .studio {
+      text-align: center;
+      background: #222;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.1);
+      max-width: 500px;
+    }
+
+    .studio h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      color: #ffcc00;
+    }
+
+    .art-area {
+      background: linear-gradient(to right, #ff9a9e, #fad0c4);
+      color: #000;
+      padding: 30px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      min-height: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2em;
+      transition: background 0.5s ease;
+      position: relative;
+    }
+
+    .timestamp {
+      position: absolute;
+      bottom: 5px;
+      right: 10px;
+      font-size: 0.7em;
+      color: #333;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 1em;
+      border: none;
+      border-radius: 8px;
+      background-color: #ffcc00;
+      color: #000;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      margin: 5px;
+    }
+
+    button:hover {
+      background-color: #ffb300;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 100%;
+      border-radius: 8px;
+      border: none;
+      margin-bottom: 10px;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <div class="studio">
+    <h1>🎨 Generative AI Studio</h1>
+    <div class="art-area" id="artArea">
+      <blockquote id="quote">Click the button to generate inspiring art ✨</blockquote>
+      <div class="timestamp" id="timestamp"></div>
+    </div>
+    <input type="text" id="customQuote" placeholder="Write your own quote..." />
+    <button onclick="generateArt()">✨ Generate Random Art</button>
+    <button onclick="generateCustomArt()">🖊️ Use My Quote</button>
+    <button onclick="downloadArt()">📷 Download Image</button>
+  </div>
+
+  <script>
+    const quotes = [
+      "Creativity takes courage. – Henri Matisse",
+      "Art is not what you see, but what you make others see. – Edgar Degas",
+      "Everything you can imagine is real. – Pablo Picasso",
+      "You can’t use up creativity. The more you use, the more you have. – Maya Angelou",
+      "Art enables us to find ourselves and lose ourselves at the same time. – Thomas Merton"
+    ];
+
+    const colors = [
+      "linear-gradient(to right, #ff9a9e, #fad0c4)",
+      "linear-gradient(to right, #a18cd1, #fbc2eb)",
+      "linear-gradient(to right, #fbc2eb, #a6c1ee)",
+      "linear-gradient(to right, #ffecd2, #fcb69f)",
+      "linear-gradient(to right, #ff9966, #ff5e62)"
+    ];
+
+    function updateTimestamp() {
+      const now = new Date();
+      const timestamp = now.toLocaleString();
+      document.getElementById('timestamp').textContent = timestamp;
+    }
+
+    function generateArt() {
+      const quote = quotes[Math.floor(Math.random() * quotes.length)];
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      document.getElementById('quote').textContent = quote;
+      document.getElementById('artArea').style.background = color;
+      updateTimestamp();
+    }
+
+    function generateCustomArt() {
+      const customQuote = document.getElementById('customQuote').value.trim();
+      if (customQuote) {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        document.getElementById('quote').textContent = customQuote;
+        document.getElementById('artArea').style.background = color;
+        updateTimestamp();
+      } else {
+        alert("Please enter a quote first.");
+      }
+    }
+
+    function downloadArt() {
+      html2canvas(document.getElementById("artArea")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "quote-art.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
